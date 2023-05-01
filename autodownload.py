@@ -5,12 +5,35 @@ import threading
 import subprocess
 import logging
 
+# 读取 repos.txt 文件并检查格式
+with open('repos.txt', 'r') as f:
+    for line in f:
+        line = line.strip()
+        if not line:
+            continue
+        parts = line.split('/')
+        if len(parts) != 2 or not parts[0] or not parts[1]:
+            print(f"Error: Invalid format in line: {line}")
+            exit(1)
+        owner, repo = parts
+        if ' ' in repo:
+            dir_name = repo.split(' ', 1)[1]
+            if not os.path.exists(dir_name):
+                os.makedirs(dir_name)
+
+
 # 设置要下载的 GitHub repo 列表和下载目录
 print('Start to download,please wait for a little while...')
-repos = [
-    {"owner": "2dust", "repo": "v2rayNG", "dir": "2dust-v2rayNG"},
-    {"owner": "SagerNet", "repo": "SagerNet", "dir": "SagerNet-SagerNet"},
-   ]
+repos_file = "repos.txt"
+repos = []
+with open(repos_file, "r") as f:
+    for line in f:
+        line = line.strip()
+        if line:
+            owner_repo, download_dir = line.split("(")
+            owner, repo = owner_repo.split("/")
+            download_dir = download_dir.strip(")").strip()
+            repos.append({"owner": owner, "repo": repo, "dir": download_dir})
 
 # 定义下载函数
 def download_assets(asset_url, download_dir):
