@@ -3,8 +3,10 @@ import json
 import os
 import threading
 import subprocess
+import logging
 
 # 设置要下载的 GitHub repo 列表和下载目录
+print('Start to download,please wait for a little while...')
 repos = [
     {"owner": "2dust", "repo": "v2rayNG", "dir": "2dust-v2rayNG"},
     {"owner": "SagerNet", "repo": "SagerNet", "dir": "SagerNet-SagerNet"},
@@ -14,7 +16,7 @@ repos = [
 def download_assets(asset_url, download_dir):
     filename = os.path.basename(asset_url)
     filepath = os.path.join(download_dir, filename)
-    subprocess.run(['wget', '-O', filepath, asset_url])
+    subprocess.run(['wget', '-O', filepath, asset_url], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 # 获取所有 GitHub repo 的最新 Release 和 pre-release 信息
 releases_info = []
@@ -45,4 +47,7 @@ for asset_url in asset_urls:
 # 等待所有下载线程结束
 for thread in threads:
     thread.join()
-    
+
+# 添加 logging，输出下载完成信息
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.info('All assets files downloaded.')
