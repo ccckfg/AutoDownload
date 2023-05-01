@@ -7,7 +7,7 @@ AutoDownload 是一个用于自动批量下载 GitHub 指定 repo 最新 release
 使用 AutoDownload 非常简单，只需要按照以下步骤进行操作：
 
 1. 克隆本项目到本地</br>```git clone https://github.com/ccckfg/AutoDownload.git``` 
-2. 修改目录中repo.txt，设置要下载的 repo 列表和下载目录。<br>配置格式为```owner/repo(下载目录)```。若目录不存在，则会自动创建。
+2. 修改目录中repo.txt，设置要下载的 repo 列表和下载目录。<br>配置格式为```owner/repo(下载目录)```一行一个。若目录不存在，则会自动创建。
 3. 运行脚本，由于本脚本的下载基于 Python wget库，你可能需要先用 pip 安装 wget。</br>
 ```pip install wget```
 
